@@ -9,10 +9,10 @@ export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 // Axios instance
 const api = axios.create({
-  baseURL: BASE_URL,
-  params: {
-    api_key: API_KEY,
-  },
+    baseURL: BASE_URL,
+    params: {
+        api_key: API_KEY,
+    },
 });
 
 // Helper function to log detailed Axios errors
@@ -39,48 +39,48 @@ const logApiError = (err, endpoint) => {
 
 
 export const fetchPopularMovies = async (page = 1) => {
-  try {
-    const response = await api.get("/movie/popular", { params: { page } });
-    return response.data.results;
-  } catch (err) {
-    // Re-throw error after logging for useFetchMovies to catch
-    console.error("Failed to fetch popular movies:", err);
-    logApiError(err, "/movie/popular"); 
-    return []; 
-  }
+    try {
+        const response = await api.get("/movie/popular", { params: { page } });
+        return response.data.results;
+    } catch (err) {
+        // Re-throw error after logging for useFetchMovies to catch
+        console.error("Failed to fetch popular movies:", err);
+        logApiError(err, "/movie/popular");
+        return [];
+    }
 };
 
 export const searchMovies = async (query, page = 1) => {
-  try {
-    const response = await api.get("/search/movie", {
-      params: { query, page },
-    });
-    return response.data.results;
-  } catch (err) {
-    console.error("Failed to search movies:", err);
-    logApiError(err, "/search/movie"); 
-    return [];
-  }
+    try {
+        const response = await api.get("/search/movie", {
+            params: { query, page },
+        });
+        return response.data.results;
+    } catch (err) {
+        console.error("Failed to search movies:", err);
+        logApiError(err, "/search/movie");
+        return [];
+    }
 };
 
 export const fetchMovieDetails = async (id) => {
-  try {
-    const response = await api.get(`/movie/${id}`);
-    return response.data;
-  } catch (err) {
-    console.error("Failed to fetch movie details:", err);
-    logApiError(err, `/movie/${id}`); 
-    return null;
-  }
+    try {
+        const response = await api.get(`/movie/${id}`);
+        return response.data;
+    } catch (err) {
+        console.error("Failed to fetch movie details:", err);
+        logApiError(err, `/movie/${id}`);
+        return null;
+    }
 };
 
 export const fetchGenres = async () => {
-  try {
-    const response = await api.get("/genre/movie/list");
-    return response.data.genres; 
-  } catch (err) {
-    console.error("Failed to fetch genres:", err);
-    logApiError(err, "/genre/movie/list"); 
-    return [];
-  }
+    try {
+        const response = await api.get("/genre/movie/list");
+        return response.data.genres;
+    } catch (err) {
+        console.error("Failed to fetch genres:", err);
+        logApiError(err, "/genre/movie/list");
+        return [];
+    }
 };

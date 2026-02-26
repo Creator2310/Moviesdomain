@@ -19,9 +19,7 @@ function AppContent({ theme, toggleTheme }) {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
-        theme === "dark" ? "bg-black text-white" : "bg-gray-50 text-gray-900"
-      }`}
+      className="min-h-screen transition-colors duration-300 bg-gray-50 text-gray-900 dark:bg-black dark:text-white"
     >
       <Header onSearch={handleSearch} theme={theme} toggleTheme={toggleTheme} />
 

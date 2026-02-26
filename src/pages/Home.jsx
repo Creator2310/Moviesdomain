@@ -10,18 +10,18 @@ export default function Home({ theme, toggleTheme }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filters are now fixed to default 'all' since the UI controls were removed.
-  const fixedFilters = { genre: "all", year: "all" }; 
-  const isSearchActive = !!searchQuery; 
+  const fixedFilters = { genre: "all", year: "all" };
+  const isSearchActive = !!searchQuery;
 
   const {
     movies: allMovies,
     loading: allLoading,
     error: allError,
-  // Note: genreNames is still returned by the hook but unused here
+    // Note: genreNames is still returned by the hook but unused here
   } = useFetchMovies(isSearchActive ? "search" : "popular", searchQuery, fixedFilters);
 
   // --- 2. Filter derived rows ---
-  const availableMovies = allMovies || []; 
+  const availableMovies = allMovies || [];
 
   const heroMovie = availableMovies[0];
   const heroImage = heroMovie?.backdropUrl || 'https://via.placeholder.com/1600x900.png?text=Movie+Banner';
@@ -33,7 +33,7 @@ export default function Home({ theme, toggleTheme }) {
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
-  
+
   // --- 3. Robust Loading/Error Guards ---
   if (allLoading && !availableMovies.length) {
     return (
@@ -62,21 +62,21 @@ export default function Home({ theme, toggleTheme }) {
   const displayTitle = searchQuery ? `Search Results for "${searchQuery}"` : "Popular Movies";
 
   return (
-    <div className={`min-h-screen ${theme === "dark" ? "bg-black text-white" : "bg-gray-50 text-gray-900"} transition-colors duration-300`}>
+    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-black dark:text-white transition-colors duration-300">
       <Header onSearch={handleSearch} theme={theme} toggleTheme={toggleTheme} />
 
       {/* Hero Section - Only shown when NOT searching */}
       {!isSearchActive && (
         <section className="relative h-[60vh] md:h-[70vh] flex items-end bg-cover bg-center bg-gray-900"
-            style={{ backgroundImage: `url('${heroImage}')` }}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-            <div className="relative z-10 p-8 md:p-16 max-w-2xl">
-              <h1 className="text-4xl md:text-6xl font-extrabold mb-4">{heroTitle}</h1>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                Find the perfect movie for your next booking experience.
-              </p>
-            </div>
-          </section>
+          style={{ backgroundImage: `url('${heroImage}')` }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+          <div className="relative z-10 p-8 md:p-16 max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-4">{heroTitle}</h1>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              Find the perfect movie for your next booking experience.
+            </p>
+          </div>
+        </section>
       )}
 
       {/* Spacer for when search is active */}
@@ -85,43 +85,43 @@ export default function Home({ theme, toggleTheme }) {
       <main className="py-8 md:py-12 px-4 md:px-8">
         {/* The content is now flat, without the filters sidebar */}
         {isSearchActive ? (
-            <MovieRow
-                title={displayTitle}
-                movies={availableMovies}
-                loading={false}
-                error={null}
-                onMovieClick={setSelectedMovie}
-                theme={theme}
-            />
+          <MovieRow
+            title={displayTitle}
+            movies={availableMovies}
+            loading={false}
+            error={null}
+            onMovieClick={setSelectedMovie}
+            theme={theme}
+          />
         ) : (
-            <>
-                <MovieRow
-                    title="Popular Movies"
-                    movies={availableMovies}
-                    loading={false}
-                    error={null}
-                    onMovieClick={setSelectedMovie}
-                    theme={theme}
-                />
+          <>
+            <MovieRow
+              title="Popular Movies"
+              movies={availableMovies}
+              loading={false}
+              error={null}
+              onMovieClick={setSelectedMovie}
+              theme={theme}
+            />
 
-                <MovieRow
-                    title="Thriller Films"
-                    movies={thrillerMovies}
-                    loading={false}
-                    error={null}
-                    onMovieClick={setSelectedMovie}
-                    theme={theme}
-                />
+            <MovieRow
+              title="Thriller Films"
+              movies={thrillerMovies}
+              loading={false}
+              error={null}
+              onMovieClick={setSelectedMovie}
+              theme={theme}
+            />
 
-                <MovieRow
-                    title="Family Favorites"
-                    movies={familyMovies}
-                    loading={false}
-                    error={null}
-                    onMovieClick={setSelectedMovie}
-                    theme={theme}
-                />
-            </>
+            <MovieRow
+              title="Family Favorites"
+              movies={familyMovies}
+              loading={false}
+              error={null}
+              onMovieClick={setSelectedMovie}
+              theme={theme}
+            />
+          </>
         )}
       </main>
 

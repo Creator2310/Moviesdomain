@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import MovieCard from "./MovieCard";
 import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function MovieRow({ title, movies, loading, error, onMovieClick, theme }) {
+export default function MovieRow({ title, movies, loading, error, onMovieClick }) {
   const scrollRef = useRef(null);
 
   // Scroll left/right functions
@@ -38,9 +38,7 @@ export default function MovieRow({ title, movies, loading, error, onMovieClick, 
     <section className="mb-8 relative group">
       {/* ✅ Dynamic text color based on theme */}
       <h2
-        className={`text-2xl md:text-3xl font-bold mb-4 pl-4 md:pl-8 transition-colors duration-300 ${
-          theme === "dark" ? "text-white" : "text-gray-900"
-        }`}
+        className="text-2xl md:text-3xl font-bold mb-4 pl-4 md:pl-8 transition-colors duration-300 text-gray-900 dark:text-white"
       >
         {title}
       </h2>

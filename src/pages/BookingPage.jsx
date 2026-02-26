@@ -3,7 +3,7 @@ import { useBooking } from "../context/BookingContext";
 import { Clock, Archive, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const BookingCard = ({ booking, onAction, theme }) => {
+const BookingCard = ({ booking, onAction }) => {
   const isHistory = booking.status !== 'active';
   const showDate = `${booking.show.date} at ${booking.show.time}`;
   const totalSeats = booking.seats.length;
@@ -11,8 +11,7 @@ const BookingCard = ({ booking, onAction, theme }) => {
   return (
     <li
       key={booking.id}
-      className={`flex items-start p-4 border rounded-lg shadow-md transition-shadow hover:shadow-lg 
-        ${theme === "dark" ? "bg-gray-800 border-gray-700 text-gray-100" : "bg-white border-gray-300 text-gray-900"}`}
+      className="flex items-start p-4 border rounded-lg shadow-md transition-shadow hover:shadow-lg bg-white border-gray-300 text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
     >
       <img
         src={booking.posterUrl}
@@ -21,7 +20,7 @@ const BookingCard = ({ booking, onAction, theme }) => {
       />
       <div className="flex-1">
         <p className="font-bold text-lg line-clamp-1">{booking.title}</p>
-        <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {isHistory ? 'Completed' : 'Upcoming'}: {showDate}
         </p>
         <p className="text-sm mt-1">
@@ -29,13 +28,12 @@ const BookingCard = ({ booking, onAction, theme }) => {
           <span className="font-semibold">${booking.totalAmount.toFixed(2)}</span>
         </p>
         <p
-          className={`text-xs mt-1 font-medium ${
-            booking.status === 'cancelled'
-              ? 'text-red-500'
-              : isHistory
+          className={`text-xs mt-1 font-medium ${booking.status === 'cancelled'
+            ? 'text-red-500'
+            : isHistory
               ? 'text-green-500'
               : 'text-blue-500'
-          }`}
+            }`}
         >
           Status: {booking.status.toUpperCase()}
         </p>
@@ -53,13 +51,12 @@ const BookingCard = ({ booking, onAction, theme }) => {
   );
 };
 
-export default function BookingPage({ theme }) {
+export default function BookingPage() {
   const {
     activeBookings,
     historyBookings,
     cancelBooking,
     clearAllBookings,
-    moveBookingToHistory,
   } = useBooking();
   const [activeTab, setActiveTab] = useState("active");
 
@@ -97,21 +94,19 @@ export default function BookingPage({ theme }) {
       <div className="flex mb-6">
         <button
           onClick={() => setActiveTab("active")}
-          className={`px-4 py-2 flex items-center gap-2 font-medium transition-colors border-b-2 ${
-            activeTab === "active"
-              ? "border-blue-600 text-blue-600 dark:text-blue-400"
-              : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-          }`}
+          className={`px-4 py-2 flex items-center gap-2 font-medium transition-colors border-b-2 ${activeTab === "active"
+            ? "border-blue-600 text-blue-600 dark:text-blue-400"
+            : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+            }`}
         >
           <Clock size={18} /> Active ({activeBookings.length})
         </button>
         <button
           onClick={() => setActiveTab("history")}
-          className={`px-4 py-2 flex items-center gap-2 font-medium transition-colors border-b-2 ${
-            activeTab === "history"
-              ? "border-blue-600 text-blue-600 dark:text-blue-400"
-              : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-          }`}
+          className={`px-4 py-2 flex items-center gap-2 font-medium transition-colors border-b-2 ${activeTab === "history"
+            ? "border-blue-600 text-blue-600 dark:text-blue-400"
+            : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+            }`}
         >
           <Archive size={18} /> History ({historyBookings.length})
         </button>
@@ -129,7 +124,6 @@ export default function BookingPage({ theme }) {
               key={booking.id}
               booking={booking}
               onAction={handleCancel}
-              theme={theme}
             />
           ))}
         </ul>

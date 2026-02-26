@@ -1,10 +1,11 @@
+/* global process */
 // src/server/index.js
 import express from "express";
 import Razorpay from "razorpay";
 import dotenv from "dotenv";
 import cors from "cors";
 
-dotenv.config({ path: "../../.env" }); // ✅ load env from root
+dotenv.config({ path: ".env" }); // ✅ load env from root
 
 const app = express();
 app.use(cors());
@@ -19,11 +20,11 @@ const razorpay = new Razorpay({
 // ✅ Create Razorpay order
 app.post("/create-order", async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, currency = "INR" } = req.body;
 
     const options = {
-      amount: amount * 100, // amount in paise
-      currency: "INR",
+      amount: amount * 100, // amount in smallest currency unit
+      currency: currency,
       receipt: `receipt_${Date.now()}`,
     };
 

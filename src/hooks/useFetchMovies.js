@@ -49,7 +49,7 @@ export default function useFetchMovies(type = "popular", query = "", filters = {
         let filtered = data;
 
         // Ensure we only filter by genre if it's set AND not 'all'
-        if (filters.genre && filters.genre !== "all") { 
+        if (filters.genre && filters.genre !== "all") {
           const genreId = Object.keys(map).find((key) => map[key] === filters.genre);
           if (genreId) {
             filtered = filtered.filter((movie) =>
@@ -99,10 +99,11 @@ export default function useFetchMovies(type = "popular", query = "", filters = {
     return () => {
       isMounted = false; // cleanup to prevent state update after unmount
     };
-  }, [type, query, filters]); 
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type, query, filters]);
+
   // New: Return the genres map and a list of genre names for the Filters component
   const genreNames = Object.values(genresMap);
-  
-  return { movies, loading, error, genreNames }; 
+
+  return { movies, loading, error, genreNames };
 }

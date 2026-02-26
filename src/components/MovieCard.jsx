@@ -1,14 +1,12 @@
 import React from "react";
 
-export default function MovieCard({ movie, onClick, theme = "dark" }) {
+export default function MovieCard({ movie, onClick }) {
   if (!movie) return null;
 
   return (
     <div
       onClick={() => onClick(movie)}
-      className={`relative flex-none w-44 sm:w-48 md:w-56 h-72 md:h-80 mr-4 rounded-2xl overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-105 shadow-lg ${
-        theme === "dark" ? "bg-gray-800" : "bg-gray-200"
-      }`}
+      className="relative flex-none w-44 sm:w-48 md:w-56 h-72 md:h-80 mr-4 rounded-2xl overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-105 shadow-lg bg-gray-200 dark:bg-gray-800"
     >
       {/* Movie Poster */}
       <img

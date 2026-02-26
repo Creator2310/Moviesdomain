@@ -54,7 +54,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
         name: "Movie Booking App",
         description: `Booking for ${movie.title}`,
         order_id: data.order.id,
-        handler: function (response) {
+        handler: function () {
           confirmBooking(movie, selectedShow, selectedSeats, totalAmount);
           setIsConfirmed(true);
           setTimeout(() => onClose(), 2000);
@@ -113,11 +113,10 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                 <button
                   key={i}
                   onClick={() => handleSelectShow(show)}
-                  className={`px-6 py-3 rounded-lg border transition ${
-                    selectedShow === show
+                  className={`px-6 py-3 rounded-lg border transition ${selectedShow === show
                       ? "bg-blue-600 text-white border-blue-600"
                       : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   <div>{show.time}</div>
                   <div className="text-sm">{show.date}</div>
@@ -127,7 +126,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
           </>
         );
 
-      case 2:
+      case 2: {
         const seats = Array.from({ length: 25 }, (_, i) => `A${i + 1}`);
         return (
           <>
@@ -137,11 +136,10 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                 <button
                   key={seat}
                   onClick={() => handleSelectSeat(seat)}
-                  className={`px-4 py-2 rounded font-medium transition ${
-                    selectedSeats.includes(seat)
+                  className={`px-4 py-2 rounded font-medium transition ${selectedSeats.includes(seat)
                       ? "bg-green-600 text-white"
                       : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   {seat}
                 </button>
@@ -153,6 +151,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
             </p>
           </>
         );
+      }
 
       case 3:
         return (
@@ -225,12 +224,11 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                 (step === 1 && !selectedShow) ||
                 (step === 2 && selectedSeats.length === 0)
               }
-              className={`px-6 py-3 rounded font-semibold transition ${
-                (step === 1 && !selectedShow) ||
-                (step === 2 && selectedSeats.length === 0)
+              className={`px-6 py-3 rounded font-semibold transition ${(step === 1 && !selectedShow) ||
+                  (step === 2 && selectedSeats.length === 0)
                   ? "bg-gray-600 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700"
-              }`}
+                }`}
             >
               {step === 1 ? "Next: Choose Seats →" : "Next: Payment →"}
             </button>

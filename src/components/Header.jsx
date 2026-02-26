@@ -55,11 +55,7 @@ export default function Header({ onSearch, theme, toggleTheme }) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for movies..."
-          className={`w-full pl-10 pr-4 py-2 rounded-md ${
-            theme === "dark"
-              ? "bg-gray-800 text-white placeholder-gray-400 focus:ring-red-600"
-              : "bg-gray-100 text-gray-900 placeholder-gray-500 focus:ring-blue-600"
-          } focus:outline-none focus:ring-2`}
+          className="w-full pl-10 pr-4 py-2 rounded-md bg-gray-100 text-gray-900 placeholder-gray-500 focus:ring-blue-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:focus:ring-red-600 focus:outline-none focus:ring-2"
         />
         <button type="submit" className="absolute left-3 text-gray-400 hover:text-white">
           <Search size={20} />
@@ -73,19 +69,25 @@ export default function Header({ onSearch, theme, toggleTheme }) {
         </button>
 
         {/* User Icon Dropdown */}
-        <div className="relative">
-          <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
-            <User size={24} className={user ? "text-red-500" : "text-gray-400"} />
+        <div className="relative" onMouseLeave={() => setMenuOpen(false)}>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none flex items-center justify-center">
+            {user ? (
+              <div className="w-8 h-8 flex items-center justify-center bg-red-600 rounded-full font-bold text-white uppercase">
+                {user.email ? user.email.charAt(0) : "U"}
+              </div>
+            ) : (
+              <User size={24} className="text-gray-400" />
+            )}
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-3 w-40 bg-gray-800 rounded-md shadow-lg text-sm">
+            <div className="absolute right-0 mt-3 w-40 bg-gray-800 rounded-md shadow-lg text-sm overflow-hidden">
               {!user ? (
                 <>
                   <Link
                     to="/auth"
                     onClick={() => setMenuOpen(false)}
-                    className="block px-4 py-2 hover:bg-gray-700"
+                    className="block px-4 py-3 hover:bg-gray-700"
                   >
                     Sign In / Register
                   </Link>
@@ -93,7 +95,7 @@ export default function Header({ onSearch, theme, toggleTheme }) {
               ) : (
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-700"
+                  className="w-full text-left px-4 py-3 hover:bg-gray-700 text-red-400 font-semibold"
                 >
                   Logout
                 </button>
