@@ -29,9 +29,9 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
   const handleNextToSeats = () => selectedShow && setStep(2);
   const handleNextToPayment = () => selectedSeats.length > 0 && setStep(3);
 
-  // 💳 Razorpay (USD currency)
+  // 💳 Razorpay (INR currency)
   const handlePayment = async () => {
-    const totalAmount = selectedSeats.length * 20; // $20 per seat
+    const totalAmount = selectedSeats.length * 200; // ₹200 per seat
     const user = auth.currentUser;
 
     if (!user) {
@@ -42,7 +42,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
     try {
       const { data } = await axios.post("http://localhost:5000/create-order", {
         amount: totalAmount,
-        currency: "USD",
+        currency: "INR",
       });
 
       if (!data.success) throw new Error("Failed to create order");
@@ -50,7 +50,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: totalAmount * 100,
-        currency: "USD",
+        currency: "INR",
         name: "Movie Booking App",
         description: `Booking for ${movie.title}`,
         order_id: data.order.id,
@@ -64,7 +64,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
           email: user.email || "user@example.com",
           contact: "9999999999",
         },
-        theme: { color: "#0d6efd" },
+        theme: { color: "#e50914" }, // Netflix Red theme
       };
 
       const rzp = new window.Razorpay(options);
@@ -75,7 +75,7 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
       });
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Payment initialization failed.");
+      alert("Payment initialization failed. Please check if your backend is running.");
     }
   };
 
@@ -114,8 +114,8 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                   key={i}
                   onClick={() => handleSelectShow(show)}
                   className={`px-6 py-3 rounded-lg border transition ${selectedShow === show
-                      ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
+                    ? "bg-red-600 text-white border-red-600"
+                    : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
                     }`}
                 >
                   <div>{show.time}</div>
@@ -137,8 +137,8 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                   key={seat}
                   onClick={() => handleSelectSeat(seat)}
                   className={`px-4 py-2 rounded font-medium transition ${selectedSeats.includes(seat)
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                    ? "bg-green-600 text-white"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                     }`}
                 >
                   {seat}
@@ -168,15 +168,15 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                 {selectedSeats.join(", ")}
               </p>
               <p>
-                <span className="font-semibold">Total:</span> ${selectedSeats.length * 20}
+                <span className="font-semibold">Total:</span> ₹{selectedSeats.length * 200}
               </p>
             </div>
             <div className="mt-6 text-center">
               <button
                 onClick={handlePayment}
-                className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded font-semibold"
+                className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded font-semibold w-full md:w-auto"
               >
-                Pay ${selectedSeats.length * 20} & Confirm Booking
+                Pay ₹{selectedSeats.length * 200} & Confirm Booking
               </button>
             </div>
           </>
@@ -225,9 +225,9 @@ export default function BookingFlowModal({ isOpen, onClose, movie }) {
                 (step === 2 && selectedSeats.length === 0)
               }
               className={`px-6 py-3 rounded font-semibold transition ${(step === 1 && !selectedShow) ||
-                  (step === 2 && selectedSeats.length === 0)
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
+                (step === 2 && selectedSeats.length === 0)
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
                 }`}
             >
               {step === 1 ? "Next: Choose Seats →" : "Next: Payment →"}

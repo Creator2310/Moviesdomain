@@ -65,26 +65,36 @@ export default function Header({ onSearch, theme, toggleTheme }) {
       {/* Right Section - Theme Toggle & User Menu */}
       <div className="flex items-center space-x-3 md:space-x-4 text-white relative w-full md:w-auto justify-center md:justify-end mt-4 md:mt-0">
         <button
-          onClick={toggleTheme}
-          className="p-2 mr-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleTheme(); }}
+          className="p-2 mr-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm relative z-50 text-gray-900 dark:text-gray-100"
           aria-label="Toggle Theme"
         >
-          {theme === "dark" ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-blue-500" />}
+          {theme === "dark" ? <Moon size={20} className="text-blue-500" /> : <Sun size={20} className="text-yellow-500" />}
         </button>
 
         {user ? (
           <div className="relative" onMouseLeave={() => setMenuOpen(false)}>
-            <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none flex items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="focus:outline-none flex items-center justify-center space-x-2 bg-gray-800 dark:bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-full border border-gray-600 transition-colors"
+            >
               <div className="w-8 h-8 flex items-center justify-center bg-red-600 rounded-full font-bold text-white uppercase shadow-md hover:ring-2 hover:ring-red-400 transition-all">
                 {user.email ? user.email.charAt(0) : "U"}
               </div>
+              <span className="text-sm font-medium hidden sm:block truncate max-w-[120px]">
+                {user.displayName || (user.email ? user.email.split('@')[0] : "User")}
+              </span>
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 mt-3 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg text-sm overflow-hidden z-50 border border-gray-200 dark:border-gray-700">
+              <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-sm overflow-hidden z-50 border border-gray-200 dark:border-gray-700 flex flex-col p-4">
+                <span className="text-gray-800 dark:text-gray-200 mb-3 font-medium text-center">Ready to leave?</span>
                 <button
+                  type="button"
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 font-semibold transition-colors"
+                  className="w-full text-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-md transition-colors shadow-sm"
                 >
                   Logout
                 </button>
