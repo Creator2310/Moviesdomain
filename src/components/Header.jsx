@@ -63,46 +63,50 @@ export default function Header({ onSearch, theme, toggleTheme }) {
       </form>
 
       {/* Right Section - Theme Toggle & User Menu */}
-      <div className="hidden md:flex items-center space-x-4 text-white relative">
-        <button onClick={toggleTheme} className="hover:text-gray-300">
-          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+      <div className="flex items-center space-x-3 md:space-x-4 text-white relative w-full md:w-auto justify-center md:justify-end mt-4 md:mt-0">
+        <button
+          onClick={toggleTheme}
+          className="p-2 mr-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-sm"
+          aria-label="Toggle Theme"
+        >
+          {theme === "dark" ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-blue-500" />}
         </button>
 
-        {/* User Icon Dropdown */}
-        <div className="relative" onMouseLeave={() => setMenuOpen(false)}>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none flex items-center justify-center">
-            {user ? (
-              <div className="w-8 h-8 flex items-center justify-center bg-red-600 rounded-full font-bold text-white uppercase">
+        {user ? (
+          <div className="relative" onMouseLeave={() => setMenuOpen(false)}>
+            <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none flex items-center justify-center">
+              <div className="w-8 h-8 flex items-center justify-center bg-red-600 rounded-full font-bold text-white uppercase shadow-md hover:ring-2 hover:ring-red-400 transition-all">
                 {user.email ? user.email.charAt(0) : "U"}
               </div>
-            ) : (
-              <User size={24} className="text-gray-400" />
-            )}
-          </button>
+            </button>
 
-          {menuOpen && (
-            <div className="absolute right-0 mt-3 w-40 bg-gray-800 rounded-md shadow-lg text-sm overflow-hidden">
-              {!user ? (
-                <>
-                  <Link
-                    to="/auth"
-                    onClick={() => setMenuOpen(false)}
-                    className="block px-4 py-3 hover:bg-gray-700"
-                  >
-                    Sign In / Register
-                  </Link>
-                </>
-              ) : (
+            {menuOpen && (
+              <div className="absolute right-0 mt-3 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg text-sm overflow-hidden z-50 border border-gray-200 dark:border-gray-700">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 hover:bg-gray-700 text-red-400 font-semibold"
+                  className="w-full text-left px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 font-semibold transition-colors"
                 >
                   Logout
                 </button>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex items-center space-x-2">
+            <Link
+              to="/auth?mode=login"
+              className="px-3 md:px-4 py-2 font-semibold text-sm border-2 border-red-600 text-red-600 dark:text-red-500 rounded-md hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-all shadow-sm"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/auth?mode=register"
+              className="px-3 md:px-4 py-2 font-semibold text-sm bg-red-600 text-white rounded-md hover:bg-red-700 shadow-md hover:shadow-lg transition-all"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );
